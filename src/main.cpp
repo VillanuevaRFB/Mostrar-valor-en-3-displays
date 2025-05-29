@@ -14,3 +14,23 @@ void config_USART(void){
   UCSR0C|=(1<<UCSZ01)|(1<<UCSZ00);
   UBRR0=103;
 }
+
+ISR(USART_RX_vect){
+  unsigned char dato=UDR0;
+  if(dato>='0'&&dato<='9'){
+    numero=numero*10+(dato-'0');
+    contador++;
+
+    if(contador==3){
+      centenas=numero/100;
+      decenas=(numero/10)%10;
+      unidades=numero%10;
+      contador=0;
+      numero=0;
+    }
+  }
+  else{
+    contador=0;
+    numero=0;
+  }
+}

@@ -36,11 +36,11 @@ ISR(USART_RX_vect){
 }
 
 void mostrar_display(unsigned char valor, unsigned char digito){
-  PORTB&=~0x07;
+  PORTB|=0x07;
   PORTD=(PORTD&0x0F)|(valor<<4);
-  PORTB|=(1<<digito);
+  PORTB&=~(1<<digito);
   _delay_ms(5);
-  PORTB&=~0x07;
+  PORTB|=0x07;
 }
 
 int main(void){

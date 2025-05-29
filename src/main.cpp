@@ -34,3 +34,23 @@ ISR(USART_RX_vect){
     numero=0;
   }
 }
+
+void mostrar_display(unsigned char valor, unsigned char digito){
+  PORTB&=~0x07;
+  PORTD=(PORTD&0x0F)|(valor<<4);
+  PORTB|=(1<<digito);
+  _delay_ms(5);
+  PORTB&=~0x07;
+}
+
+int main(void){
+  DDRD|=0xF0;
+  DDRB|=0x07;
+  config_USART();
+  sei();
+  while(1){
+    mostrar_display(unidades,0);
+    mostrar_display(decenas,1);
+    mostrar_display(centenas,2);
+  }
+}
